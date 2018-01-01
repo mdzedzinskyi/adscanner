@@ -1,0 +1,14 @@
+{
+  "name": "olxdataprovider",
+  "version": "1.0.0",
+  "description": "Offers scanner for OLX site",
+  "main": "olxDataProvider.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mykola.dzedzinskyi",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
+  }
+}

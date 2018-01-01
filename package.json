@@ -1,0 +1,13 @@
+{
+  "name": "ad-scanner",
+  "version": "1.0.0",
+  "description": "application that can scan some ad web sites",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "mykola.dzedzinskyi",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
