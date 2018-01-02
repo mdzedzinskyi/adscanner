@@ -32,7 +32,7 @@ OlxDataProvider.prototype.handleOffers = function ($, selector) {
         const location = $(this).find('tr:last-child .breadcrumb span').text();
         const time = $(this).find('tr:last-child td:first-child p:last-child').text();
 
-        result.push({
+        const offer = {
             url: thumbLink.attr('href'),
             img: {
                 src: thumbImg.attr('src'),
@@ -42,43 +42,17 @@ OlxDataProvider.prototype.handleOffers = function ($, selector) {
             price: price,
             location: location.trim(),
             time: time.trim()
-        });
+        };
+
+        result.push(offer);
     });
 
-    // offersNodeList.forEach(function (offerEl) {
-    //     // if (!offerEl) return;
-    //     // const thumbLink = offerEl.querySelector('a.thumb') || {};
-    //     // const thumbImg = thumbLink.querySelector('img') || {};
-    //     // const offerName = (offerEl.querySelector('strong') || {}).innerHTML;
-    //     // const price = (offerEl.querySelector('.price strong') || {}).innerHTML;
-    //     // const location = (offerEl.querySelector('tr:last-child .breadcrumb span') || {}).innerHTML;
-    //     // const time = (offerEl.querySelector('tr:last-child td:first-child p:last-child') || {}).innerHTML;
-
-    //     // if (thumbLink.href) {
-    //     //     BrowserWrapper.getDocument(thumbLink.href).then(function (d) {
-    //     //         const mainImg = d.querySelector('#photo-gallery-opener > img');
-
-    //     //     })
-    //     // }
-        
-    //     // result.push({
-    //     //     url: thumbLink.href,
-    //     //     img: {
-    //     //         src: thumbImg.src,
-    //     //         alt: thumbImg.alt
-    //     //     },
-    //     //     name: offerName,
-    //     //     price: price,
-    //     //     location: location.trim(),
-    //     //     time: time.trim()
-    //     // });
-    // });
     return result;
 };
 
 OlxDataProvider.prototype.getOfferTypes = function () {
     return OfferTypes;
-}
+};
 
 OlxDataProvider.prototype.getOffersFromPage = function (offerType, pageNumber) {
     const self = this;
@@ -95,27 +69,20 @@ OlxDataProvider.prototype.getOffersFromPage = function (offerType, pageNumber) {
 OlxDataProvider.prototype.getOffersByType = function (offerType) {
     const self = this;
     const results = [];
-    let pageNumber = 1;
-
-    loadSinglePage(pageNumber);
     
-    function loadSinglePage (pageNumber) {
+    return loadPages();
+
+    function loadPages (pn) {
+        let pageNumber = pn || 1;
         return new Promise((resolve, reject) => {
-            self.getOffersFromPage(offerType, pageNumber).then(function(offers){
-                resolve(offers);
-            })
-        }).then(function (result){
-            results.push(result);
-            if (pageNumber == 10) {
-                console.log(results);
-                return;
-            };
-            loadSinglePage(++pageNumber);
+            self.getOffersFromPage(offerType, pageNumber).then(function (result) {
+                results.push(...result);
+                if (pageNumber == 1) {
+                    resolve(results);
+                } else {
+                    loadPages(++pageNumber);
+                }
+            });
         });
     }
 };
-
-var dp = new OlxDataProvider();
-var offerTypes = dp.getOfferTypes();
-dp.getOffersByType(offerTypes.Transport.Cars);
-

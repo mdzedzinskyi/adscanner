@@ -8,8 +8,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch Olx Program",
             "program": "${workspaceRoot}\\DataProviders\\OLX\\olxDataProvider.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceRoot}\\index.js"
         },
         {
             "type": "node",
