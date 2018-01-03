@@ -2,6 +2,7 @@
 
 const path = require('path');
 const DataProvidersFactory = require('./DataProviders/AdsDataProvidersFactory');
+const fs = require('fs');
 
 
 function AdScanner() {
@@ -31,6 +32,10 @@ for (let i in providers) {
     const offerTypes = provider.getOfferTypes();
     const type = offerTypes.RealEstate.AppartmentForSale;
     const prom = provider.getOffersByType(type).then(function (result) {
-        console.log(result);
+        //console.log(result);
+        const json = JSON.stringify(result);
+        fs.writeFile('results.json', json, 'utf8', function (){
+            console.log('>> Done >>');
+        })
     });
 }
